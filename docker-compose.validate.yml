@@ -1,0 +1,18 @@
+version: '3.8'
+services:
+  validate:
+    image: pytorch/pytorch:2.1.0-cuda11.8-cudnn8-runtime
+    container_name: ai-validate
+    working_dir: /workspace
+    volumes:
+      - ./:/workspace
+    command: ["python", "validate.py"]
+    environment:
+      - PYTHONUNBUFFERED=1
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: all
+              capabilities: [gpu]

@@ -1,0 +1,18 @@
+version: '3.8'
+services:
+  train:
+    image: pytorch/pytorch:2.1.0-cuda11.8-cudnn8-runtime
+    container_name: ai-train
+    working_dir: /workspace
+    volumes:
+      - ./:/workspace
+    command: ["python", "train.py"]
+    environment:
+      - PYTHONUNBUFFERED=1
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: all
+              capabilities: [gpu]
